@@ -1,6 +1,8 @@
 import os
 import shutil
 import glob
+import requests
+import config
 import pandas as pd
 
 raw_download_date = '01-07-2020'
@@ -104,3 +106,18 @@ def raw_file_clean(dict_months):
     df['total'] = df['total'].astype(float)
     df = df.sort_values(by=['date'])
     df.to_csv(f'net_sales_total.csv', header=True, index=False)
+
+def call_dark_sky_api(epoch_time):
+    parameters = {
+        "exclude": "currently,minutely,hourly,flags",
+    }
+
+    response = requests.get(f"https://api.darksky.net/forecast/{config.darksky_api_key}/{config.elizabeth_nj},{epoch_time}", params=parameters)
+
+    json_response = response.json()
+
+    df = pd.DataFrame(json_response['daily']['data'])
+    df['time'] = pd.to_datetime(df['time'], unit='s', origin='unix')
+    df['time'] = pd.to_datetime(df['time'].dt.date)
+    
+    return df
