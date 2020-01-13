@@ -130,3 +130,6 @@ dmypy.json
 
 # csv files
 *.csv
+
+# API & Secret keys
+config.py
