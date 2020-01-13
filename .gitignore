@@ -133,3 +133,6 @@ dmypy.json
 
 # API & Secret keys
 config.py
+
+# pdf files
+*.pdf
