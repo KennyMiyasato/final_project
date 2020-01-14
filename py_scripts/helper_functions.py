@@ -11,6 +11,10 @@ raw_folder = 'raw_folder'
 raw_folder_renamed = 'raw_folder_renamed'
 clean_folder_renamed = 'clean_folder_renamed'
 
+dict_month_names = {0:'Jan', 1:'Feb', 2:'Mar', 3:'Apr', 
+                    4:'May', 5:'Jun', 6:'Jul', 7:'Aug', 
+                    8:'Sep', 9:'Oct', 10:'Nov', 11:'Dec'}
+
 dict_months = {
     '2015_01': [1420088400000, 1422766799000], '2015_02': [1422766800000, 1425185999000],
     '2015_03': [1425186000000, 1427860799000], '2015_04': [1427860800000, 1430452799000],
