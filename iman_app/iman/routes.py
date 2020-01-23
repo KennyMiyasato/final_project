@@ -2,7 +2,7 @@ import os
 from flask import render_template, url_for, flash, redirect, session, request, send_from_directory, jsonify
 # from werkzeug.utils import secure_filename
 from iman import app
-# from iman.forms import Title_Year
+from iman.forms import Predictions
 # from iman.kenny_imdb_class import IMDB
 # from iman.random_color import RandomColor
 # from iman.create_csv import CreateCsvFile
@@ -26,9 +26,21 @@ from random import choice
 # def allowed_file(filename):
 #     return '.' in filename and \
 #            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# return redirect(url_for('movie_added', title=form.title.data, year=form.year.data))
+
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    form = Predictions()
+    if form.validate_on_submit():
+        return redirect(url_for('predicted', prediction=form.prediction.data))
+    return render_template('home.html', form=form)
+
 
 with open('../model/forecast_model_no_regressors.pckl', 'rb') as fin:
     m2 = pickle.load(fin)
+
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
@@ -36,23 +48,18 @@ def predict():
     # horizon = int(request.json['horizon'])
     future2 = m2.make_future_dataframe(periods=horizon)
     forecast2 = m2.predict(future2)
-    
+
     # data = forecast2[['ds', 'yhat', 'yhat_lower', 'yhat_upper']][-horizon:]
     data = forecast2[['ds', 'yhat']][-horizon:]
-    
+
     ret = data.to_json(orient='records', date_format='iso')
-    
+
     return ret
     # return horizon
 
-# @app.route('/', methods=['GET', 'POST'])
-# @app.route('/home', methods=['GET', 'POST'])
-# def home():
-#     form = Title_Year()
-#     if form.validate_on_submit():
-#         return redirect(url_for('movie_added', title=form.title.data, year=form.year.data))
-#     return render_template('home.html', form=form)
-
+@app.route('/predicted')
+def predicted():
+    pass
 
 # @app.route('/movie_added')
 # def movie_added():
