@@ -2,7 +2,7 @@
 Using Daily sales and weather data to predict future daily sales.
 
 ## Background
-A family owned peruvian restaurant in New Jersey wants help from a data scientist to predict their daily sales.
+A restaurant is showing signs of sales decreasing year over year. I will try to forecast future daily sales using Prophet.
 
 ## Data Sources
 1. Clover POS (point-of-sale) website CSV
